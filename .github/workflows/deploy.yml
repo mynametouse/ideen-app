@@ -1,0 +1,26 @@
+name: Automatisches Deployment
+
+on:
+  push:
+    branches: [ main ]  # Passe den Branch an, falls du einen anderen verwendest
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository klonen
+      uses: actions/checkout@v2
+
+    - name: Projekt-Dateien bereitstellen
+      run: |
+        echo "Deployment beginnt ..."
+        mkdir output
+        echo "<!DOCTYPE html><html><head><title>Ideen-App</title></head><body><h1>To-Do Liste mit Planeten</h1></body></html>" > output/index.html
+
+    - name: In GitHub deployen
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages
+        folder: output
+        token: ${{ secrets.GH_TOKEN }}
